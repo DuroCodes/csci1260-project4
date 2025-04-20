@@ -1,6 +1,6 @@
 "use server";
 
-import { eq, not } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "~/db/drizzle";
 import { paste } from "~/db/schema";
 
@@ -19,11 +19,14 @@ export const addPaste = async (
   language: string,
   theme: string,
 ) => {
-  const pasteData = await db.insert(paste).values({
-    content,
-    language,
-    theme,
-  });
+  const pasteData = await db
+    .insert(paste)
+    .values({
+      content,
+      language,
+      theme,
+    })
+    .returning({ id: paste.id });
 
-  return pasteData;
+  return pasteData[0];
 };

@@ -1,37 +1,53 @@
 "use client";
 
-import { createContext, type ReactNode, useContext, useState } from "react";
-import { LANGUAGES } from "~/utils/languages";
-import { THEME_MAP } from "~/utils/themes";
+import { createContext, useContext, useState, ReactNode } from "react";
 
-interface EditorContext {
-  language: string;
-  theme: string;
+interface EditorContextType {
   content: string;
-  setLanguage(lang: string): void;
-  setTheme(theme: string): void;
-  setContent(content: string): void;
+  setContent: (content: string) => void;
+  language: string;
+  setLanguage: (language: string) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
 }
 
-const EditorContext = createContext<EditorContext | null>(null);
+const EditorContext = createContext<EditorContextType | undefined>(undefined);
 
-export const EditorProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState(LANGUAGES[0]);
-  const [theme, setTheme] = useState(Object.keys(THEME_MAP)[0]);
-  const [content, setContent] = useState("");
+interface EditorProviderProps {
+  children: ReactNode;
+  initialContent?: string;
+  initialLanguage?: string;
+  initialTheme?: string;
+}
+
+export function EditorProvider({
+  children,
+  initialContent = "",
+  initialLanguage = "typescript",
+  initialTheme = "catppuccin-mocha",
+}: EditorProviderProps) {
+  const [content, setContent] = useState<string>(initialContent);
+  const [language, setLanguage] = useState<string>(initialLanguage);
+  const [theme, setTheme] = useState<string>(initialTheme);
+
+  const value = {
+    content,
+    setContent,
+    language,
+    setLanguage,
+    theme,
+    setTheme,
+  };
 
   return (
-    <EditorContext.Provider
-      value={{ language, theme, content, setLanguage, setTheme, setContent }}
-    >
-      {children}
-    </EditorContext.Provider>
+    <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
   );
-};
+}
 
-export const useEditorContext = () => {
+export function useEditor() {
   const context = useContext(EditorContext);
-  if (!context)
-    throw new Error("useEditorContext must be used within an EditorProvider");
+  if (context === undefined)
+    throw new Error("useEditor must be used within an EditorProvider");
+
   return context;
-};
+}

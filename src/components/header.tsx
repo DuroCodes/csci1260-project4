@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditorContext } from "./editor-provider";
+import { useEditor } from "./editor-provider";
 import {
   Select,
   SelectTrigger,
@@ -11,52 +11,38 @@ import {
 import { Button } from "~/components/ui/button";
 import { THEME_MAP } from "~/utils/themes";
 import { LANGUAGES } from "~/utils/languages";
+import { SaveButton } from "./save-button";
+import { SearchableSelect } from "./searchable-select";
 
-export default function Header() {
-  const { language, theme, content, setLanguage, setTheme } =
-    useEditorContext();
-
-  const handleSave = () => {
-    const encoded = btoa(encodeURIComponent(content));
-    const payload = { language, theme, content: encoded };
-    console.log(payload);
-  };
+export function Header() {
+  const { language, theme, content, setLanguage, setTheme } = useEditor();
 
   return (
     <div className="flex justify-between items-center px-4 py-2">
       <div className="flex gap-2">
-        <Button variant="outline" onClick={() => location.reload()}>
+        <Button variant="outline" onClick={() => (location.href = "/")}>
           new
         </Button>
-        <Button variant="outline" onClick={handleSave}>
-          save
-        </Button>
+        <SaveButton content={content} language={language} theme={theme} />
       </div>
       <div className="flex gap-2">
-        <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger>
-            <SelectValue placeholder="Language" />
-          </SelectTrigger>
-          <SelectContent>
-            {LANGUAGES.map((l) => (
-              <SelectItem key={l} value={l}>
-                {l}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={theme} onValueChange={setTheme}>
-          <SelectTrigger>
-            <SelectValue placeholder="Theme" />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(THEME_MAP).map((t) => (
-              <SelectItem key={t} value={t}>
-                {t}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <SearchableSelect
+          options={LANGUAGES.map((l) => ({ value: l, label: l }))}
+          placeholder="language"
+          value={language}
+          onValueChange={setLanguage}
+          className="w-40"
+        />
+        <SearchableSelect
+          options={Object.keys(THEME_MAP).map((t) => ({
+            value: t,
+            label: t,
+          }))}
+          placeholder="theme"
+          value={theme}
+          onValueChange={setTheme}
+          className="w-53"
+        />
       </div>
     </div>
   );
