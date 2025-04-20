@@ -1,5 +1,6 @@
 import { ThemeInput } from "shiki";
 import horizonTheme from "./custom/horizon.json";
+import shadesOfPurpleTheme from "./custom/shades-of-purple.json";
 
 type ShadCnKeys =
   | "background"
@@ -640,6 +641,29 @@ export const THEME_MAP: Record<string, ThemeData> = {
       input: "#393552",
       ring: "#ea9a97",
     },
+  },
+  "shades-of-purple": {
+    ui: {
+      background: "#2D2B55",
+      foreground: "#FFFFFF",
+      card: "#1E1E3F",
+      "card-foreground": "#FFFFFF",
+      popover: "#1E1E3F",
+      "popover-foreground": "#FFFFFF",
+      primary: "#A599E9",
+      "primary-foreground": "#1E1E3F",
+      secondary: "#FAD000",
+      "secondary-foreground": "#1E1E3F",
+      muted: "#4D21FC",
+      "muted-foreground": "#D2C9FF",
+      accent: "#FF9D00",
+      "accent-foreground": "#1E1E3F",
+      destructive: "#FF628C",
+      border: "#4D21FC",
+      input: "#4D21FC",
+      ring: "#A599E9",
+    },
+    theme: shadesOfPurpleTheme as ThemeInput,
   },
   "solarized-dark": {
     ui: {
