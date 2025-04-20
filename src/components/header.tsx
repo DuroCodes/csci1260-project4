@@ -10,16 +10,7 @@ import {
 } from "~/components/ui/select";
 import { Button } from "~/components/ui/button";
 import { THEME_MAP } from "~/utils/themes";
-
-const LANGUAGES = [
-  "plain",
-  "javascript",
-  "typescript",
-  "python",
-  "java",
-  "csharp",
-  "go",
-];
+import { LANGUAGES } from "~/utils/languages";
 
 export default function Header() {
   const { language, theme, content, setLanguage, setTheme } =
@@ -32,13 +23,13 @@ export default function Header() {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 py-2 border-b">
+    <div className="flex justify-between items-center px-4 py-2">
       <div className="flex gap-2">
         <Button variant="outline" onClick={() => location.reload()}>
-          New
+          new
         </Button>
         <Button variant="outline" onClick={handleSave}>
-          Save
+          save
         </Button>
       </div>
       <div className="flex gap-2">

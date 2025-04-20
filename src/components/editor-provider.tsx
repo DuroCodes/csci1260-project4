@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, type ReactNode, useContext, useState } from "react";
+import { LANGUAGES } from "~/utils/languages";
 import { THEME_MAP } from "~/utils/themes";
 
 interface EditorContext {
@@ -15,7 +16,7 @@ interface EditorContext {
 const EditorContext = createContext<EditorContext | null>(null);
 
 export const EditorProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState("plain");
+  const [language, setLanguage] = useState(LANGUAGES[0]);
   const [theme, setTheme] = useState(Object.keys(THEME_MAP)[0]);
   const [content, setContent] = useState("");
 
